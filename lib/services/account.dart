@@ -161,6 +161,23 @@ class Account extends Service {
         return models.User.fromMap(res.data);
     }
 
+     /// Update Account Phone
+     Future<models.User> updatePhone({required String number, required String password}) async {
+        const String path = '/account/phone';
+
+        final Map<String, dynamic> params = {
+            'number': number,
+            'password': password,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.patch, path: path, params: params, headers: headers);
+        return models.User.fromMap(res.data);
+    }
+
      /// Get Account Preferences
      ///
      /// Get currently logged in user preferences as a key-value object.
@@ -276,27 +293,6 @@ class Account extends Service {
         return models.SessionList.fromMap(res.data);
     }
 
-     /// Create Account Session
-     ///
-     /// Allow the user to login into their account by providing a valid email and
-     /// password combination. This route will create a new session for the user.
-     ///
-     Future<models.Session> createSession({required String email, required String password}) async {
-        const String path = '/account/sessions';
-
-        final Map<String, dynamic> params = {
-            'email': email,
-            'password': password,
-        };
-
-        final Map<String, String> headers = {
-            'content-type': 'application/json',
-        };
-
-        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
-        return models.Session.fromMap(res.data);
-    }
-
      /// Delete All Account Sessions
      ///
      /// Delete all sessions from the user account and remove any sessions cookies
@@ -329,6 +325,27 @@ class Account extends Service {
         const String path = '/account/sessions/anonymous';
 
         final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Session.fromMap(res.data);
+    }
+
+     /// Create Account Session with Email
+     ///
+     /// Allow the user to login into their account by providing a valid email and
+     /// password combination. This route will create a new session for the user.
+     ///
+     Future<models.Session> createEmailSession({required String email, required String password}) async {
+        const String path = '/account/sessions/email';
+
+        final Map<String, dynamic> params = {
+            'email': email,
+            'password': password,
         };
 
         final Map<String, String> headers = {
@@ -447,6 +464,40 @@ class Account extends Service {
 
       return client.webAuth(url);
 
+    }
+
+     /// Create Phone session
+     Future<models.Token> createPhoneSession({required String userId, required String number}) async {
+        const String path = '/account/sessions/phone';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'number': number,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone session (confirmation)
+     Future<models.Session> updatePhoneSession({required String userId, required String secret}) async {
+        const String path = '/account/sessions/phone';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'secret': secret,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.put, path: path, params: params, headers: headers);
+        return models.Session.fromMap(res.data);
     }
 
      /// Get Session By ID
@@ -571,6 +622,38 @@ class Account extends Service {
      ///
      Future<models.Token> updateVerification({required String userId, required String secret}) async {
         const String path = '/account/verification';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'secret': secret,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.put, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone Verification
+     Future<models.Token> createPhoneVerification() async {
+        const String path = '/account/verification/phone';
+
+        final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone Verification (confirmation)
+     Future<models.Token> updatePhoneVerification({required String userId, required String secret}) async {
+        const String path = '/account/verification/phone';
 
         final Map<String, dynamic> params = {
             'userId': userId,
