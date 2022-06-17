@@ -14,8 +14,12 @@ class User implements Model {
     final int passwordUpdate;
     /// User email address.
     final String email;
+    /// User phone number in E.164 format.
+    final String phone;
     /// Email verification status.
     final bool emailVerification;
+    /// Phone verification status.
+    final bool phoneVerification;
     /// User preferences as a key-value object
     final Preferences prefs;
 
@@ -26,7 +30,9 @@ class User implements Model {
         required this.status,
         required this.passwordUpdate,
         required this.email,
+        required this.phone,
         required this.emailVerification,
+        required this.phoneVerification,
         required this.prefs,
     });
 
@@ -38,7 +44,9 @@ class User implements Model {
             status: map['status'],
             passwordUpdate: map['passwordUpdate'],
             email: map['email'].toString(),
+            phone: map['phone'].toString(),
             emailVerification: map['emailVerification'],
+            phoneVerification: map['phoneVerification'],
             prefs: Preferences.fromMap(map['prefs']),
         );
     }
@@ -52,7 +60,9 @@ class User implements Model {
             "status": status,
             "passwordUpdate": passwordUpdate,
             "email": email,
+            "phone": phone,
             "emailVerification": emailVerification,
+            "phoneVerification": phoneVerification,
             "prefs": prefs.toMap(),
         };
     }
